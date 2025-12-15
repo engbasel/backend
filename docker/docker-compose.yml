@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  gateway:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+    volumes:
+      - ./uploads:/app/uploads
+    command: ["python", "gateway.py"]
+    depends_on:
+      - flask-server
+      - ai-chatbot
+      - stroke-assessment
+      - stroke-image
+    networks:
+      - neuroaid-network
+
+  # Main Flask Server
+  flask-server:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+      - JWT_SECRET=your-secret-key-change-this-in-production
+      - JWT_EXPIRES_IN=7d
+      - MAX_FILE_SIZE=10485760
+      - UPLOAD_PATH=/app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+    command: ["python", "flask_server/app.py"]
+    networks:
+      - neuroaid-network
+
+  # AI Chatbot Service
+  ai-chatbot:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: ["python", "ai_services/chatbot/app.py"]
+    networks:
+      - neuroaid-network
+
+  # Stroke Assessment Service
+  stroke-assessment:
+    build: .
+    ports:
+      - "5002:5002"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+    command: ["python", "ai_services/stroke_assessment/app.py"]
+    networks:
+      - neuroaid-network
+
+  # Stroke Image Analysis Service
+  stroke-image:
+    build: .
+    ports:
+      - "5003:5003"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+    volumes:
+      - ./uploads:/app/uploads
+    command: ["python", "ai_services/stroke_image/app.py"]
+    networks:
+      - neuroaid-network
+
+networks:
+  neuroaid-network:
+    driver: bridge
+
+volumes:
+  uploads:
