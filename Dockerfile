@@ -9,16 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-COPY flask_server/requirements.txt ./flask_server/
-COPY ai_services/chatbot/requirements.txt ./ai_services/chatbot/
-COPY ai_services/stroke_assessment/requirements.txt ./ai_services/stroke_assessment/
-COPY ai_services/stroke_image/requirements.txt ./ai_services/stroke_image/
-
-RUN pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -r flask_server/requirements.txt && \
-    pip install --no-cache-dir -r ai_services/chatbot/requirements.txt && \
-    pip install --no-cache-dir -r ai_services/stroke_assessment/requirements.txt && \
-    pip install --no-cache-dir -r ai_services/stroke_image/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
