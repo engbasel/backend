@@ -1,22 +1,54 @@
-# NeuroAid Backend Requirements
+# NeuroAid Backend - Complete Requirements
 # Install with: pip install -r requirements.txt
+# This file includes all dependencies for the entire project:
+# - Flask Main Server
+# - API Gateway
+# - AI Chatbot Service
+# - Stroke Assessment Service
+# - Stroke Image Analysis Service
 
-# Core Flask
-flask>=2.3.0
-flask-cors>=4.0.0
-python-dotenv>=1.0.0
+# ============================================
+# Core Flask Framework
+# ============================================
+flask==3.0.0
+flask-cors==4.0.0
+python-dotenv==1.0.0
+Werkzeug==3.0.1
 
-# For API Gateway (Proxying)
-requests>=2.31.0
+# ============================================
+# API & HTTP
+# ============================================
+requests==2.31.0
 
-# Database & Auth (if used)
-pymongo>=4.5.0
-PyJWT>=2.8.0
-bcrypt>=4.0.1
+# ============================================
+# Authentication & Security
+# ============================================
+PyJWT==2.8.0
+bcrypt==4.0.1
 
-# AI/ML (for stroke assessment)
-numpy>=1.24.0
-scikit-learn>=1.3.0
+# ============================================
+# Data Science & Machine Learning
+# ============================================
+numpy==1.24.3
+scikit-learn==1.3.0
 
-# Utilities
-Werkzeug>=2.3.0
+# ============================================
+# Deep Learning (for Image Analysis)
+# ============================================
+tensorflow==2.13.0
+
+# ============================================
+# Image Processing
+# ============================================
+Pillow==10.0.0
+
+# ============================================
+# Database (Optional - if using MongoDB)
+# ============================================
+# pymongo>=4.5.0
+
+# ============================================
+# Additional Utilities
+# ============================================
+# python-multipart  # For file uploads if needed
+# gunicorn          # For production deployment
