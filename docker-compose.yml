@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # API Gateway
   gateway:
     build: .
     ports:
@@ -20,7 +19,6 @@ services:
     networks:
       - neuroaid-network
 
-  # Main Flask Server
   flask-server:
     build: .
     ports:
@@ -38,7 +36,6 @@ services:
     networks:
       - neuroaid-network
 
-  # AI Chatbot Service
   ai-chatbot:
     build: .
     ports:
@@ -51,7 +48,6 @@ services:
     networks:
       - neuroaid-network
 
-  # Stroke Assessment Service
   stroke-assessment:
     build: .
     ports:
@@ -63,7 +59,6 @@ services:
     networks:
       - neuroaid-network
 
-  # Stroke Image Analysis Service
   stroke-image:
     build: .
     ports:
