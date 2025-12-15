@@ -38,15 +38,28 @@ def main():
         ("PyJWT", "jwt"),
         ("bcrypt", "bcrypt"),
         
+        # AI Chatbot (LangChain & OpenAI)
+        ("langgraph", "langgraph"),
+        ("langchain", "langchain"),
+        ("langchain-core", "langchain_core"),
+        ("langchain-openai", "langchain_openai"),
+        ("openai", "openai"),
+        ("langsmith", "langsmith"),
+        
         # Data Science & ML
         ("numpy", "numpy"),
         ("scikit-learn", "sklearn"),
+        ("pandas", "pandas"),
         
         # Deep Learning
         ("tensorflow", "tensorflow"),
+        ("keras", "keras"),
         
         # Image Processing
         ("Pillow", "PIL"),
+        
+        # Async Support
+        ("aiohttp", "aiohttp"),
     ]
     
     print("Checking Core Packages:")
