@@ -1,0 +1,104 @@
+@echo off
+title NeuroAid - Complete System Startup
+color 0A
+
+echo.
+echo ========================================
+echo    NeuroAid Complete System Startup
+echo ========================================
+echo.
+
+REM Check Node.js
+echo [1/5] Checking Node.js...
+node --version >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Node.js is not installed!
+    echo Please install Node.js from https://nodejs.org/
+    pause
+    exit /b 1
+)
+echo ✓ Node.js is installed
+
+REM Check Python
+echo [2/5] Checking Python...
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Python is not installed!
+    echo Please install Python from https://www.python.org/
+    pause
+    exit /b 1
+)
+echo ✓ Python is installed
+
+REM Check if node_modules exists
+echo [3/5] Checking backend dependencies...
+if not exist "node_modules\" (
+    echo Installing backend dependencies...
+    call npm install
+    if errorlevel 1 (
+        echo ERROR: Failed to install backend dependencies
+        pause
+        exit /b 1
+    )
+)
+echo ✓ Backend dependencies ready
+
+REM Update IP configuration
+echo [4/5] Updating IP configuration...
+node update-ip.js
+echo ✓ IP configuration updated
+
+REM Start Backend Server
+echo [5/5] Starting Backend Server...
+start "NeuroAid Backend Server" cmd /k "npm start"
+timeout /t 3 >nul
+
+REM Start AI Services
+echo.
+echo Starting AI Services...
+cd ai_services
+start "NeuroAid Chatbot" cmd /k "cd chatbot && python app.py"
+timeout /t 2 >nul
+
+start "NeuroAid Stroke Assessment" cmd /k "cd stroke_assessment && python app.py"
+timeout /t 2 >nul
+
+start "NeuroAid Image Analysis" cmd /k "cd stroke_image && python app.py"
+timeout /t 2 >nul
+
+cd ..
+
+echo.
+echo ========================================
+echo    All Services Started Successfully!
+echo ========================================
+echo.
+echo Backend Server:        http://localhost:3001
+echo   - Health Check:      http://localhost:3001/health
+echo   - API Docs:          See API_DOCUMENTATION.md
+echo.
+echo AI Services:
+echo   - Chatbot:           http://localhost:5001
+echo   - Stroke Assessment: http://localhost:5002
+echo   - Image Analysis:    http://localhost:5003
+echo.
+echo ========================================
+echo.
+echo Press any key to open health checks in browser...
+pause >nul
+
+start http://localhost:3001/health
+timeout /t 1 >nul
+start http://localhost:5001/health
+timeout /t 1 >nul
+start http://localhost:5002/health
+timeout /t 1 >nul
+start http://localhost:5003/health
+
+echo.
+echo All services are running in separate windows.
+echo Close those windows to stop the services.
+echo.
+echo To test the APIs, run: node test_api.js
+echo.
+pause
